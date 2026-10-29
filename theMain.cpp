@@ -26,7 +26,23 @@ namespace
 	const int SPEED2 = 3;//1フレーム３ピクセル進む
 	const unsigned int CHAR2_COLOR = GetColor(218, 112, 214); // キャラクター2の色
 
+	//もう一匹、下にキャラを追加して徒競走させよう。
+	int x3 = 50;
+	int y3 = 150;
+	const int SPEED3 = 1;//1フレーム３ピクセル進む
+	const unsigned int CHAR3_COLOR = GetColor(218, 0, 214); // キャラクター3の色
+
+	//もう一匹、下にキャラを追加して徒競走させよう。
+	int x4 = 50;
+	int y4 = 600;
+	const int SPEED4 = 5;//1フレーム３ピクセル進む
+	const unsigned int CHAR4_COLOR = GetColor(200, 10, 150); // キャラクター4の色
+
 	const int CHAR_SIZE = 100; // キャラクターのサイズ
+	Chara c1( x,  y, SPEED , CHAR1_COLOR, CHAR_SIZE);
+	Chara c2(x2, y2, SPEED2, CHAR2_COLOR, CHAR_SIZE);
+	Chara c3(x3, y3, SPEED3, CHAR3_COLOR, CHAR_SIZE);
+	Chara c4(x4, y4, SPEED4, CHAR4_COLOR, CHAR_SIZE);
 }
 
 
@@ -59,28 +75,27 @@ void Init()
 
 void Update()
 {
-	//キャラを右に動かす
-	if (x < WIN_WIDTH - CHAR_SIZE)
-		x = x + SPEED;
-	//もう一匹のキャラも右に動かす
-	if (x2 < WIN_WIDTH - CHAR_SIZE)
-		x2 = x2 + SPEED2;
+	c1.Update();
+	c2.Update();
+	c3.SpeedUp();
+	c3.Update();
+	c4.Update();
 }
 
 void Draw()
 {
-	//キャラを描画
-	DrawBox(x, y, x + CHAR_SIZE, y + CHAR_SIZE, CHAR1_COLOR, true);
-	//もう一匹のキャラも描画
-	DrawBox(x2, y2, x2 + CHAR_SIZE, y2 + CHAR_SIZE, CHAR2_COLOR, true);
+	c1.Draw();
+	c2.Draw();
+	c3.Draw();
+	c4.Draw();
 }
 
 void MyGame()
 {
-	DrawFormatString(100, 100, GetColor(0, 0, 0), "ウィンドウのテスト");
-	static int timer = 0;//はじめだけ０で初期化して、後は覚えててくれる
-	timer++;
-	DrawFormatString(100, 150, GetColor(0, 0, 0), "%010d", timer);
+	//DrawFormatString(100, 100, GetColor(0, 0, 0), "ウィンドウのテスト");
+	//static int timer = 0;//はじめだけ０で初期化して、後は覚えててくれる
+	//timer++;
+	//DrawFormatString(100, 150, GetColor(0, 0, 0), "%010d", timer);
 
 	Update();
 	Draw();
@@ -94,8 +109,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Init();//初期化処理
 	crrTime = GetNowCount();
 	prevTime = GetNowCount();
-	Chara c1(x, y, SPEED, CHAR1_COLOR, CHAR_SIZE);
-	Chara c2(x2, y2, SPEED2, CHAR2_COLOR, CHAR_SIZE);
+
 
 
 	while (true)
@@ -109,20 +123,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		gDeltaTime = deltaTime; // グローバル変数に保存
 
 		//ここにやりたい処理を書く
-		//MyGame();
-		//C1、C2のアップデート
-		c1.Update();
-		c2.Update();
-		//C1,C2のドロー
-		c1.Draw();
-		c2.Draw();
+		MyGame();
 
-		//DrawBox(c1.x_, c1.y_, 
-		//	    c1.x_ + c1.size_, c1.y_ + c1.size_,
-		//	    c1.color_, true);
-		//DrawBox(c2.x_, c2.y_,
-		//	    c2.x_ + c2.size_, c2.y_ + c2.size_,
-		//	    c2.color_, true);
 
 		ScreenFlip();
 		WaitTimer(16);//時間調整

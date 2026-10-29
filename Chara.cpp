@@ -2,6 +2,12 @@
 #include "globals.h"
 #include <DxLib.h>
 
+void Chara::Move()
+{
+	if (x_ < WIN_WIDTH - size_)
+		x_ = x_ + speed_;
+}
+
 Chara::Chara(int x, int y, int speed,
 	unsigned int color, int size)
 {
@@ -14,8 +20,7 @@ Chara::Chara(int x, int y, int speed,
 
 void Chara::Update()
 {
-	if (x_ < WIN_WIDTH - size_)
-		x_ = x_ + speed_;
+	Move();
 }
 
 void Chara::Draw()
@@ -25,3 +30,16 @@ void Chara::Draw()
 		color_, true);
 }
 
+//void Chara::SetSpeed(int speed)
+//{
+//	speed_ = speed;
+//}
+
+void Chara::SpeedUp()
+{
+	speed_ = speed_ + 1;
+}
+void Chara::SpeedDown()
+{
+	speed_ = speed_ - 1;
+}
